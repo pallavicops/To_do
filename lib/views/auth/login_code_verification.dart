@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 
-import 'login_code_verification.dart';
+import '../../controller/auth_controller.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+class LoginCodeVerification extends StatefulWidget {
+  const LoginCodeVerification({
+    Key? key,
+  }) : super(
+          key: key,
+        );
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<LoginCodeVerification> createState() => _LoginCodeVerificationState();
 }
 
-class _LoginViewState extends State<LoginView> {
-  final TextEditingController _mobileController = TextEditingController();
+class _LoginCodeVerificationState extends State<LoginCodeVerification> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +25,11 @@ class _LoginViewState extends State<LoginView> {
           children: [
             Container(
               decoration: const BoxDecoration(
-                boxShadow: [BoxShadow(color: Colors.grey)],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                  ),
+                ],
                 color: Colors.white,
                 borderRadius: BorderRadiusDirectional.only(
                   topStart: Radius.circular(20),
@@ -35,31 +42,34 @@ class _LoginViewState extends State<LoginView> {
                   shrinkWrap: true,
                   children: [
                     Text(
-                      "Enter your\nmobile number",
+                      "Enter code sent\nto your phone",
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Text(
-                      "We will send you confirmation code ",
+                      "We sent it to number  ${authController.phoneNumber} ",
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                     const SizedBox(
                       height: 30,
                     ),
                     TextField(
-                      controller: _mobileController,
+                      onChanged: (String otp) {
+                        authController.otp = otp;
+                      },
                       autofocus: true,
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.next,
+                      textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge
                           ?.copyWith(fontSize: 30),
                       decoration: const InputDecoration(
                         border: InputBorder.none,
-                        prefixText: '+91',
+                        hintText: '_ _ _ _ _ _',
                       ),
                     ),
                     const SizedBox(
@@ -67,26 +77,16 @@ class _LoginViewState extends State<LoginView> {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(
-                          0xFF5DDBE3,
-                        ),
+                        backgroundColor: Theme.of(context).primaryColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
                       ),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => LoginCodeVerification(
-                              phoneNumber:
-                                  '+91${_mobileController.text.trim()}',
-                            ),
-                          ),
-                        );
+                        authController.manualLogin();
                       },
                       child: Text(
-                        "NEXT",
+                        "ENTER",
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
@@ -105,7 +105,7 @@ class _LoginViewState extends State<LoginView> {
                                 .textTheme
                                 .titleSmall
                                 ?.copyWith(
-                                  color: const Color(0xFF5DDBE3),
+                                  color: Theme.of(context).primaryColor,
                                   decoration: TextDecoration.underline,
                                 ),
                           ),
@@ -116,10 +116,10 @@ class _LoginViewState extends State<LoginView> {
                                 .textTheme
                                 .titleSmall
                                 ?.copyWith(
-                                  color: const Color(0xFF5DDBE3),
+                                  color: Theme.of(context).primaryColor,
                                   decoration: TextDecoration.underline,
                                 ),
-                          )
+                          ),
                         ],
                       ),
                     )

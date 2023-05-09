@@ -1,10 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:to_do/view/login.dart';
+import 'package:to_do/utils/custom_key.dart';
+import 'package:to_do/views/splash_view.dart';
 
 import 'firebase_options.dart';
 
-Future<void> main() async {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -18,23 +20,35 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'To do',
-        theme: ThemeData(
-          textTheme: const TextTheme(
-            titleLarge: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
-            ),
-            titleSmall: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF8F8F8F),
+      debugShowCheckedModeBanner: false,
+      title: 'To do',
+      navigatorKey: CustomKey.navigatorKey,
+      scaffoldMessengerKey: CustomKey.scaffoldMessengerKey,
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          elevation: 0,
+        ),
+        scaffoldBackgroundColor: Colors.white,
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
+          titleSmall: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+            color: Color(
+              0xFF8F8F8F,
             ),
           ),
-          primarySwatch: Colors.blue,
         ),
-        home: const LoginView());
+        primaryColor: const Color(
+          0xFF28FDD7,
+        ),
+      ),
+      home: const SplashView(),
+    );
   }
 }
