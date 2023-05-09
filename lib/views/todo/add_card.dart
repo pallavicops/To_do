@@ -25,14 +25,16 @@ class AddCard extends StatelessWidget {
         Center(
           child: ElevatedButton(
             onPressed: () {
-              if (toDoController.title == null) {
+              if (toDoController.title == null ||
+                  toDoController.title!.isEmpty) {
+                Navigator.pop(context);
                 snackBarService.showNegativeSnackBar(
                   "Title can not be empty",
                 );
                 return;
               } else {
                 toDoController.addToDo();
-                Navigator.pop(context, true);
+                Navigator.pop(context);
               }
             },
             style: ElevatedButton.styleFrom(
